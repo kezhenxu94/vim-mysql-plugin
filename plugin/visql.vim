@@ -86,8 +86,8 @@ fun! s:GetCommand()
 	return l:Command
 endfun
 
-autocmd FileType mysql nnoremap <silent><buffer> <leader>rr :call g:RunLine()<CR>
-autocmd FileType mysql nnoremap <silent><buffer> <leader>ss :call g:SelectCursorTable()<CR>
-autocmd FileType mysql nnoremap <silent><buffer> <leader>ds :call g:DescriptCursorTable()<CR>
-autocmd FileType mysql nnoremap <silent><buffer> <leader>rs :call g:RunSelection()<CR>
-autocmd FileType mysql vnoremap <silent><buffer> <leader>rs :<C-U>call g:RunSelection()<CR>
+autocmd FileType sql nnoremap <silent><buffer> <leader>rr :call g:RunLine()<CR>
+autocmd FileType sql nnoremap <silent><buffer> <leader>ss :call g:SelectCursorTable()<CR>
+autocmd FileType sql nnoremap <silent><buffer> <leader>ds :call g:DescriptCursorTable()<CR>
+autocmd FileType sql nnoremap <silent><buffer> <leader>rs :call g:RunSelection()<CR>
+autocmd FileType sql vnoremap <silent><buffer> <leader>rs :<C-U>call g:RunSelection()<CR>
