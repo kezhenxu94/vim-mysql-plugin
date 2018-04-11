@@ -1,4 +1,4 @@
-# vim-mysql-client
+# vim-mysql-plugin
 
 A highly customizable MySQL VIM plugin.
 
