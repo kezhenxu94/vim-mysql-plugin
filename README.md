@@ -25,7 +25,7 @@ Add the following line to the ~/.vimrc file, after adding that, the file may loo
 	Plugin 'VundleVim/Vundle.vim'
 
 	" Add this plugin
-	Plugin 'git://github.com/kezhenxu94/vim-mysql-client.git'
+	Plugin 'git://github.com/kezhenxu94/vim-mysql-plugin.git'
 
 	call vundle#end()
 
