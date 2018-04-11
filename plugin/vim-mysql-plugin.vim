@@ -1,13 +1,13 @@
-" Plugin: ViSQL (VIM MySQL database client)
+" Plugin: vim-mysql-plugin
 " Author: Ke Zhenxu <kezhenxu94@163.com>
 " License: GPL
-" Origin: http://github.com/kezhenxu94/visql.vim
+" Origin: https://github.com/kezhenxu94/vim-mysql-plugin
 
-if exists("g:visql_loaded") || &cp
+if exists("g:vim_mysql_plugin_loaded") || &cp
 	finish
 endif
 
-let g:visql_loaded = 1
+let g:vim_mysql_plugin_loaded = 1
 
 fun! g:RunShellCommand(shell_command)
 	echohl String | echon '¦ $ ' . a:shell_command . '...' | echohl None
@@ -46,9 +46,9 @@ fun! g:RunSelection()
 		echohl Error | echon 'Nothing Selected' | echohl None
 		return
 	endif
-	call writefile(l:Selection, '/tmp/visql.sql', 'w')
+	call writefile(l:Selection, '/tmp/vim-mysql-plugin.sql', 'w')
 
-	let l:Command = s:GetCommand() . ' < ' . '/tmp/visql.sql'
+	let l:Command = s:GetCommand() . ' < ' . '/tmp/vim-mysql-plugin.sql'
 	let l:Command = escape(l:Command, '%#\`')
 	call g:RunShellCommand(l:Command)
 endf
