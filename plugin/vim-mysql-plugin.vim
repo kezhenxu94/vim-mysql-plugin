@@ -67,9 +67,13 @@ func! g:DescriptCursorTable()
 	call g:RunShellCommand(l:Command)
 endfun
 
-fun! g:RunLine()
-	let l:CurrentLine = getline('.')
-	let l:Command = s:GetCommand() . ' -e "' . l:CurrentLine . '"'
+fun! g:RunInstruction()
+    let l:prevSemicolon = search(';', 'bn')
+    let l:nextSemicolon = search(';', 'n')
+    let l:lines = getline(l:prevSemicolon, l:nextSemicolon)[1:]
+    let l:lines = filter(l:lines, 'v:val !~ ".*--.*$"')
+	let l:CurrentInstruction = join(l:lines, ' ')
+	let l:Command = s:GetCommand() . ' -e "' . l:CurrentInstruction . '"'
 	let l:Command = escape(l:Command, '%#\`')
 	call g:RunShellCommand(l:Command)
 endfun
@@ -86,7 +90,7 @@ fun! s:GetCommand()
 	return l:Command
 endfun
 
-autocmd FileType sql nnoremap <silent><buffer> <leader>rr :call g:RunLine()<CR>
+autocmd FileType sql nnoremap <silent><buffer> <leader>rr :call g:RunInstruction()<CR>
 autocmd FileType sql nnoremap <silent><buffer> <leader>ss :call g:SelectCursorTable()<CR>
 autocmd FileType sql nnoremap <silent><buffer> <leader>ds :call g:DescriptCursorTable()<CR>
 autocmd FileType sql nnoremap <silent><buffer> <leader>rs :call g:RunSelection()<CR>
