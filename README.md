@@ -85,4 +85,10 @@ After typing the shortcut the VIM window will be splitted into two, the bottom o
 
 If you find it difficult to use this plugin, please open issues or help improve it by creating pull requests.
 
+## Contributors
 
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+| [<img src="https://avatars3.githubusercontent.com/u/15965696?v=4" width="50px;"/><br /><sub><b>kezhenxu94</b></sub>](https://kezhenxu94.me)<br />[💻](https://github.com/kezhenxu94/vim-mysql-plugin/commits?author=kezhenxu94 "Code") | [<img src="https://avatars2.githubusercontent.com/u/13188781?v=4" width="50px;"/><br /><sub><b>jfecher</b></sub>](http://antelang.org/)<br />[💻](https://github.com/kezhenxu94/vim-mysql-plugin/commits?author=jfecher "Code") |
+| :---: | :---: |
+<!-- ALL-CONTRIBUTORS-LIST:END -->
