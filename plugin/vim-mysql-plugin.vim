@@ -68,11 +68,11 @@ func! g:DescriptCursorTable()
 endfun
 
 fun! g:RunInstruction()
-	let l:prevSemicolon = search(';', 'bn')
-	let l:nextSemicolon = search(';', 'n')
-	let l:lines = getline(l:prevSemicolon, l:nextSemicolon)[1:]
-	let l:lines = filter(l:lines, 'v:val !~ ".*--.*$"')
-	let l:CurrentInstruction = join(l:lines, ' ')
+	let l:PrevSemicolon = search(';', 'bn')
+	let l:NextSemicolon = search(';', 'n')
+	let l:Lines = getline(l:PrevSemicolon, l:NextSemicolon)[1:]
+	let l:Lines = map(l:Lines, "substitute(v:val, '--.*$', '', 'g')")
+	let l:CurrentInstruction = join(l:Lines, ' ')
 	let l:Command = s:GetCommand() . ' -e "' . l:CurrentInstruction . '"'
 	let l:Command = escape(l:Command, '%#\`')
 	call g:RunShellCommand(l:Command)
