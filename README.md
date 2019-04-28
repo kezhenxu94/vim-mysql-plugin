@@ -16,21 +16,19 @@ If the output is something like `-bash: mysql: command not found`, then you may 
 ## Install
 
 - Vundle (Recommended)
+
 Add the following line to the ~/.vimrc file, after adding that, the file may look like this:
-	```vimrc
-	" ... some other configurations
 
-	call vundle#begin()
+```vimrc
+" ... some other configurations
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+" Add this plugin
+Plugin 'git://github.com/kezhenxu94/vim-mysql-plugin.git'
+call vundle#end()
+" ... some other configurations
+```
 
-	Plugin 'VundleVim/Vundle.vim'
-
-	" Add this plugin
-	Plugin 'git://github.com/kezhenxu94/vim-mysql-plugin.git'
-
-	call vundle#end()
-
-	" ... some other configurations
-	```
 And remember to execute `:PluginInstall` in VIM normal mode.
 
 ## How does it work
