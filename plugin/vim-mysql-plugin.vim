@@ -46,7 +46,7 @@ fun! g:RunSelection()
 		echohl Error | echon 'Nothing Selected' | echohl None
 		return
 	endif
-	call writefile(l:Selection, '/tmp/vim-mysql-plugin.sql', 'w')
+	call writefile(l:Selection, '/tmp/vim-mysql-plugin.sql')
 
 	let l:Command = s:GetCommand() . ' < ' . '/tmp/vim-mysql-plugin.sql'
 	let l:Command = escape(l:Command, '%#\`')
