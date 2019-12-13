@@ -31,6 +31,18 @@ call vundle#end()
 
 And remember to execute `:PluginInstall` in VIM normal mode.
 
+- Plug (for neovim)
+
+Add the following to `~/.config/nvim/init.vim`:
+```vimrc
+" ... some other configurations
+Plugin 'https://github.com/kezhenxu94/vim-mysql-plugin.git'
+" ... some other configurations
+```
+
+Then run `:PlugInstall`.
+
+
 ## How does it work
 
 For the sake of security and convenience, this plugin utilizes a command line parameter of MySQL client called `defaults-group-suffix`, for more details about `defaults-group-suffix`, check out the documentation [here](https://dev.mysql.com/doc/refman/5.5/en/option-file-options.html#option_general_defaults-group-suffix); but now just put your configuration in the file `~/.my.cnf` like this:
@@ -51,6 +63,19 @@ default_character_set = utf8
 database = mysql
 ```
 
+**Note**: if you already use `.my.cnf`, then add the new contents at the end. As your configuration options will be read after the main `[Client]` ones, you do not need to repeat those if the values are the same, for example, to set up a section for a particular database using your normal credials, your `.my.cnf` might look like this:
+
+```conf
+[client]
+user = mymysqlmamaria
+password = neveryoumind
+
+# ↑ that config was there before
+# ↓ this config is what we added
+[client-mydb]
+database = mydb
+```
+
 ## Usage
 
 Create a new file whose name ends with `.sql`, adding the following two lines in the very beginning of the file:
@@ -68,6 +93,8 @@ Then add your sql statements following the two lines. Here is a sample of the `s
    
 select * from user;
 ```
+
+**Note**: The `--default-group-suffix` option is a *suffix*, i.e. we're entering `ExampleTest` not `ClientExampleTest`. To use the 2nd configuration example you'd use `--default-group-suffix=mydb`.
 
 - Move the caret to the line `select * from user;` and type `<leader>rr` in VIM normal mode to run the line;
 
