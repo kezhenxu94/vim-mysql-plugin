@@ -46,7 +46,7 @@ fun! g:RunSelection()
 		echohl Error | echon 'Nothing Selected' | echohl None
 		return
 	endif
-	call writefile(l:Selection, '/tmp/vim-mysql-plugin.sql', 'w')
+	call writefile(l:Selection, '/tmp/vim-mysql-plugin.sql')
 
 	let l:Command = s:GetCommand() . ' < ' . '/tmp/vim-mysql-plugin.sql'
 	let l:Command = escape(l:Command, '%#\`')
@@ -56,14 +56,14 @@ endf
 func! g:SelectCursorTable()
 	let l:Table = '`' . expand('<cword>') . '`'
 	let l:Command = s:GetCommand() . ' -e ' . '"select * from ' . l:Table . '"'
-	let l:Command = escape(l:Command, '%#\`')
+	let l:Command = escape(l:Command, '$!%#\`')
 	call g:RunShellCommand(l:Command)
 endfun
 
 func! g:DescriptCursorTable()
 	let l:Table = '`' . expand('<cword>') . '`'
 	let l:Command = s:GetCommand() . ' -e ' . '"show full columns from ' . l:Table . '"'
-	let l:Command = escape(l:Command, '%#\`')
+	let l:Command = escape(l:Command, '$!%#\`')
 	call g:RunShellCommand(l:Command)
 endfun
 
@@ -74,7 +74,7 @@ fun! g:RunInstruction()
 	let l:Lines = map(l:Lines, "substitute(v:val, '--.*$', '', 'g')")
 	let l:CurrentInstruction = join(l:Lines, ' ')
 	let l:Command = s:GetCommand() . ' -e "' . l:CurrentInstruction . '"'
-	let l:Command = escape(l:Command, '%#\`')
+	let l:Command = escape(l:Command, '$!%#\`')
 	call g:RunShellCommand(l:Command)
 endfun
 
