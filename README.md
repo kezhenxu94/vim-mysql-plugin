@@ -63,7 +63,7 @@ default_character_set = utf8
 database = mysql
 ```
 
-**Note**: if you already use `.my.cnf`, then add the new contents at the end. As your configuration options will be read after the main `[Client]` ones, you do not need to repeat those if the values are the same, for example, to set up a section for a particular database using your normal credials, your `.my.cnf` might look like this:
+**Note**: if you already use `.my.cnf`, then add the new contents at the end. As your configuration options will be read after the main `[Client]` ones, you do not need to repeat those if the values are the same, for example, to set up a section for a particular database using your normal credential, your `.my.cnf` might look like this:
 
 ```conf
 [client]
