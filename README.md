@@ -100,7 +100,7 @@ select * from user;
 
 - Move the caret to the line `select * from user;` and type `<leader>rr` in VIM normal mode to run the line;
 
-- Move the caret to the table name (such as `user`) and type `<leader>ds` (stands for "Descript") to show the columns of the table, type `<leader>ss` to `select *` from the table;
+- Move the caret to the table name (such as `user`) and type `<leader>ds` (stands for "Describe") to show the columns of the table, type `<leader>ss` to `select *` from the table;
 
 - Using VIM visual mode to select a range of statement and type `<leader>rs` to execute the selected statements;
 
@@ -110,7 +110,7 @@ After typing the shortcut the VIM window will be splitted into two, the bottom o
 
 ## Contribution
 
-If you find it difficult to use this plugin, please open issues or help improve it by creating pull requests.
+If you find it difficult to use this plugin, please open issues or help to improve it by creating pull requests.
 
 ## Contributors
 
