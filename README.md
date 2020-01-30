@@ -2,6 +2,8 @@
 
 A highly customizable MySQL VIM plugin.
 
+[![Mentioned in Awesome VIM](https://awesome.re/mentioned-badge.svg)](https://github.com/akrawchyk/awesome-vim/)
+
 ## Prerequisite
 
 This plugin works on the basis of MySQL client, therefore a MySQL client is required, use the following command to ensure that there is one available on your machine:
