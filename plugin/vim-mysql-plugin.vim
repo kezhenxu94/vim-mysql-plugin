@@ -46,11 +46,11 @@ fun! g:RunArray(sqlarray, timing)
 		return
 	endif
 
-  if a:timing
-    let l:thesql = ['SELECT NOW(3)+0 INTO @startTime;'] + a:sqlarray + ['SELECT CONCAT(ROUND(NOW(3) - @startTime, 3), "s") Took']
-  else
-    let l:thesql = a:sqlarray
-  endif
+	if a:timing
+		let l:thesql = ['SELECT NOW(3)+0 INTO @startTime;'] + a:sqlarray + ['SELECT CONCAT(ROUND(NOW(3) - @startTime, 3), "s") Took']
+	else
+		let l:thesql = a:sqlarray
+	endif
 	call writefile(l:thesql, '/tmp/vim-mysql-plugin.sql')
 	let l:Command = s:GetCommand() . ' </tmp/vim-mysql-plugin.sql'
 	call g:RunShellCommand(l:Command)
@@ -58,7 +58,7 @@ endf
 
 fun! g:RunSelection()
 	let l:Selection = g:GetSelection()
-  call g:RunArray(l:Selection, 1)
+	call g:RunArray(l:Selection, 1)
 endfun
 
 
