@@ -135,3 +135,5 @@ If you find it difficult to use this plugin, please open issues or help to impro
 - Security improvement: Previously SQL with double quotes `"` that was run with `<Leader>rr` would escape the shell argument, meaning the following code was run in the shell(!). This would potentially do very bad things.
 
 - Code refactor: all SQL execution now uses the same method (write it to a /tmp file and `<` redirect it into the command; we no longer use `-e` with SQL on the command line)
+
+- Timings: An additional query is run to report on the execution time.
