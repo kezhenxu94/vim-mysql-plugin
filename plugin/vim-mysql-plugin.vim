@@ -64,19 +64,19 @@ endfun
 
 func! g:SelectCursorTable()
 	let l:Table = expand('<cword>')
-  call RunArray(['SELECT * FROM `' . l:Table . '` LIMIT 100;'], 0)
+	call RunArray(['SELECT * FROM `' . l:Table . '` LIMIT 100;'], 0)
 endfun
 
 func! g:DescriptCursorTable()
 	let l:Table = expand('<cword>')
-  call RunArray(['SHOW FULL COLUMNS FROM `' . l:Table . '`;'], 0)
+	call RunArray(['SHOW FULL COLUMNS FROM `' . l:Table . '`;'], 0)
 endfun
 
 fun! g:RunInstruction()
 	let l:PrevSemicolon = search(';', 'bnW')
 	let l:NextSemicolon = search(';', 'nW')
 	let l:Lines = getline(l:PrevSemicolon, l:NextSemicolon)[1:]
-  call g:RunArray(l:Lines, 1)
+	call g:RunArray(l:Lines, 1)
 endfun
 
 fun! s:GetCommand()
