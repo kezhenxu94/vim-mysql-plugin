@@ -1,6 +1,6 @@
 " Plugin: vim-mysql-plugin
 " Author: Ke Zhenxu <kezhenxu94@163.com>
-" License: GPL
+" License: Apache License, Version 2.0
 " Origin: https://github.com/kezhenxu94/vim-mysql-plugin
 
 if exists("g:vim_mysql_plugin_loaded") || &cp
@@ -40,42 +40,43 @@ fun! g:GetSelection()
 	return lines
 endfun
 
-fun! g:RunSelection()
-	let l:Selection = g:GetSelection()
-	if len(l:Selection) == 0
+fun! g:RunArray(sqlarray, timing)
+	if len(a:sqlarray) == 0
 		echohl Error | echon 'Nothing Selected' | echohl None
 		return
 	endif
-	call writefile(l:Selection, '/tmp/vim-mysql-plugin.sql')
 
-	let l:Command = s:GetCommand() . ' < ' . '/tmp/vim-mysql-plugin.sql'
-	let l:Command = escape(l:Command, '%#\`')
+  if a:timing
+    let l:thesql = ['SELECT NOW(3)+0 INTO @startTime;'] + a:sqlarray + ['SELECT CONCAT(ROUND(NOW(3) - @startTime, 3), "s") Took']
+  else
+    let l:thesql = a:sqlarray
+  endif
+	call writefile(l:thesql, '/tmp/vim-mysql-plugin.sql')
+	let l:Command = s:GetCommand() . ' </tmp/vim-mysql-plugin.sql'
 	call g:RunShellCommand(l:Command)
 endf
 
+fun! g:RunSelection()
+	let l:Selection = g:GetSelection()
+  call g:RunArray(l:Selection, 1)
+endfun
+
+
 func! g:SelectCursorTable()
-	let l:Table = '`' . expand('<cword>') . '`'
-	let l:Command = s:GetCommand() . ' -e ' . '"select * from ' . l:Table . '"'
-	let l:Command = escape(l:Command, '$!%#\`')
-	call g:RunShellCommand(l:Command)
+	let l:Table = expand('<cword>')
+  call RunArray(['SELECT * FROM `' . l:Table . '` LIMIT 100;'], 0)
 endfun
 
 func! g:DescriptCursorTable()
-	let l:Table = '`' . expand('<cword>') . '`'
-	let l:Command = s:GetCommand() . ' -e ' . '"show full columns from ' . l:Table . '"'
-	let l:Command = escape(l:Command, '$!%#\`')
-	call g:RunShellCommand(l:Command)
+	let l:Table = expand('<cword>')
+  call RunArray(['SHOW FULL COLUMNS FROM `' . l:Table . '`;'], 0)
 endfun
 
 fun! g:RunInstruction()
 	let l:PrevSemicolon = search(';', 'bnW')
 	let l:NextSemicolon = search(';', 'nW')
 	let l:Lines = getline(l:PrevSemicolon, l:NextSemicolon)[1:]
-	let l:Lines = map(l:Lines, "substitute(v:val, '--.*$', '', 'g')")
-	let l:CurrentInstruction = join(l:Lines, ' ')
-	let l:Command = s:GetCommand() . ' -e "' . l:CurrentInstruction . '"'
-	let l:Command = escape(l:Command, '$!%#\`')
-	call g:RunShellCommand(l:Command)
+  call g:RunArray(l:Lines, 1)
 endfun
 
 fun! s:GetCommand()
@@ -83,7 +84,8 @@ fun! s:GetCommand()
 	let l:LineNum = 1
 	let l:Line = getline(l:LineNum)
 	while l:Line != '--'
-		let l:Command .= substitute(l:Line, '^--\s*\(.*\)$', '\1', 'g')
+		let l:arg = shellescape(substitute(l:Line, '^--\s*\(.*\)$', '\1', 'g'))
+		let l:Command .= l:arg . ' '
 		let l:LineNum = l:LineNum + 1
 		let l:Line = getline(l:LineNum)
 	endwhile

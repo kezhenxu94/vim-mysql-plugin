@@ -74,33 +74,41 @@ password = neveryoumind
 
 # ↑ that config was there before
 # ↓ this config is what we added
-[client-mydb]
+[clientMyDb]
 database = mydb
 ```
 
 ## Usage
 
-Create a new file whose name ends with `.sql`, adding the following two lines in the very beginning of the file:
+Create a new file whose name ends with `.sql`, adding the following three lines in the very beginning of the file:
 
 ```sql
--- --defaults-group-suffix=ExampleTest -t
+-- --defaults-group-suffix=ExampleTest
+-- -t
 --
 ```
 
-Then add your sql statements following the two lines. Here is a sample of the `sql` file:
+Notes:
+
+- The first line with `--default-group-suffix` identifies the configuration **suffix**, defined above. i.e. we're entering `ExampleTest` not `ClientExampleTest`. To use the 2nd configuration example you'd use `--default-group-suffix=MyDb`.
+
+- The -t option means output as a table. You can ommit this if you want bare output.
+
+- Each mysql option **must** be on its own line.
+
+Then add your sql statements following the three lines. Here is a sample of the `sql` file:
 
 ```sql
--- --defaults-group-suffix=ExampleTest -t
+-- --defaults-group-suffix=ExampleTest
+-- -t
 --
-   
-select * from user;
-```
 
-**Note**: The `--default-group-suffix` option is a *suffix*, i.e. we're entering `ExampleTest` not `ClientExampleTest`. To use the 2nd configuration example you'd use `--default-group-suffix=mydb`.
+SELECT * FROM USER;
+```
 
 - Move the caret to the line `select * from user;` and type `<leader>rr` in VIM normal mode to run the line;
 
-- Move the caret to the table name (such as `user`) and type `<leader>ds` (stands for "Describe") to show the columns of the table, type `<leader>ss` to `select *` from the table;
+- Move the caret to the table name (such as `user`) and type `<leader>ds` (stands for "Descript") to show the columns of the table, type `<leader>ss` to `SELECT *` from the table;
 
 - Using VIM visual mode to select a range of statement and type `<leader>rs` to execute the selected statements;
 
@@ -116,6 +124,14 @@ If you find it difficult to use this plugin, please open issues or help to impro
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore -->
-| [<img src="https://avatars3.githubusercontent.com/u/15965696?v=4" width="50px;"/><br /><sub><b>kezhenxu94</b></sub>](https://kezhenxu94.me)<br />[💻](https://github.com/kezhenxu94/vim-mysql-plugin/commits?author=kezhenxu94 "Code") | [<img src="https://avatars2.githubusercontent.com/u/13188781?v=4" width="50px;"/><br /><sub><b>jfecher</b></sub>](http://antelang.org/)<br />[💻](https://github.com/kezhenxu94/vim-mysql-plugin/commits?author=jfecher "Code") |
+| [<img src="https://avatars3.githubusercontent.com/u/15965696?v=4" width="50px;"/><br /><sub><b>kezhenxu94</b></sub>](https://kezhenxu94.me)<br />[💻](https://github.com/kezhenxu94/vim-mysql-plugin/commits?author=kezhenxu94 "Code") | [<img src="https://avatars2.githubusercontent.com/u/13188781?v=4" width="50px;"/><br /><sub><b>jfecher</b></sub>](http://antelang.org/)<br />[💻](https://github.com/kezhenxu94/vim-mysql-plugin/commits?author=jfecher "Code")<br />[Artful Robot](https://artfulrobot.uk) |
 | :---: | :---: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
+
+## Change log
+
+- Security improvement: all shell commands are escaped with shellescape(). This means MySQL command options must now be one-per-line.
+
+- Security improvement: Previously SQL with double quotes `"` that was run with `<Leader>rr` would escape the shell argument, meaning the following code was run in the shell(!). This would potentially do very bad things.
+
+- Code refactor: all SQL execution now uses the same method (write it to a /tmp file and `<` redirect it into the command; we no longer use `-e` with SQL on the command line)
