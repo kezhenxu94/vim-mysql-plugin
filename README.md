@@ -122,10 +122,10 @@ If you find it difficult to use this plugin, please open issues or help to impro
 
 ## Contributors
 
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore -->
-| [<img src="https://avatars3.githubusercontent.com/u/15965696?v=4" width="50px;"/><br /><sub><b>kezhenxu94</b></sub>](https://kezhenxu94.me)<br />[💻](https://github.com/kezhenxu94/vim-mysql-plugin/commits?author=kezhenxu94 "Code") | [<img src="https://avatars2.githubusercontent.com/u/13188781?v=4" width="50px;"/><br /><sub><b>jfecher</b></sub>](http://antelang.org/)<br />[💻](https://github.com/kezhenxu94/vim-mysql-plugin/commits?author=jfecher "Code")<br />[Artful Robot](https://artfulrobot.uk) |
-| :---: | :---: |
+| :tada: | :tada: | :tada: |
+| :---: | :---: | :---: |
+| [![kezhenxu94](https://avatars3.githubusercontent.com/u/15965696?size=50)](https://github.com/kezhenxu94) | [![jfecher](https://avatars2.githubusercontent.com/u/13188781?size=50)](https://github.com/jfecher) | [![Artful Robot](https://avatars0.githubusercontent.com/u/870343?size=50)](https://github.com/artfulrobot) |
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 ## Change log
