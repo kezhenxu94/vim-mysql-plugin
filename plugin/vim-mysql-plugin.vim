@@ -47,7 +47,7 @@ fun! g:RunArray(sqlarray, timing)
 	endif
 
 	if a:timing
-		let l:thesql = ['SELECT NOW(3)+0 INTO @startTime;'] + a:sqlarray + ['SELECT CONCAT(ROUND(NOW(3) - @startTime, 3), "s") Took']
+		let l:thesql = ['SELECT NOW(3)+0 INTO @startTime;'] + a:sqlarray + ['; SELECT CONCAT(ROUND(NOW(3) - @startTime, 3), "s") Took']
 	else
 		let l:thesql = a:sqlarray
 	endif
