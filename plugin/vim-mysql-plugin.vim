@@ -72,17 +72,19 @@ func! g:DescriptCursorTable()
 	call RunArray(['SHOW FULL COLUMNS FROM `' . l:Table . '`;'], 0)
 endfun
 
-fun! g:RunInstruction()
+fun! s:GetInstruction()
 	let l:PrevSemicolon = search(';', 'bnW')
 	let l:NextSemicolon = search(';', 'nW')
-	let l:Lines = getline(l:PrevSemicolon, l:NextSemicolon)[1:]
+	return getline(l:PrevSemicolon, l:NextSemicolon)[1:]
+endfun
+
+fun! g:RunInstruction()
+    let l:Lines = s:GetInstruction()
 	call g:RunArray(l:Lines, 1)
 endfun
 
 fun! g:RunExplain()
-	let l:PrevSemicolon = search(';', 'bnW')
-	let l:NextSemicolon = search(';', 'nW')
-	let l:Lines = getline(l:PrevSemicolon, l:NextSemicolon)[1:]
+    let l:Lines = s:GetInstruction()
 	call g:RunArray(['explain '] + l:Lines, 1)
 endfun
 
