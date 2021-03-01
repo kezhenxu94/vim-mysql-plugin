@@ -79,6 +79,18 @@ fun! g:RunInstruction()
 	call g:RunArray(l:Lines, 1)
 endfun
 
+fun! g:RunExplain()
+	let l:PrevSemicolon = search(';', 'bnW')
+	let l:NextSemicolon = search(';', 'nW')
+	let l:Lines = getline(l:PrevSemicolon, l:NextSemicolon)[1:]
+	call g:RunArray(['explain '] + l:Lines, 1)
+endfun
+
+fun! g:RunExplainSelection()
+	let l:Selection = g:GetSelection()
+	call g:RunArray(['explain '] + l:Selection, 1)
+endfun
+
 fun! s:GetCommand()
 	let l:Command = 'mysql '
 	let l:LineNum = 1
@@ -97,3 +109,5 @@ autocmd FileType sql nnoremap <silent><buffer> <leader>ss :call g:SelectCursorTa
 autocmd FileType sql nnoremap <silent><buffer> <leader>ds :call g:DescriptCursorTable()<CR>
 autocmd FileType sql nnoremap <silent><buffer> <leader>rs :call g:RunSelection()<CR>
 autocmd FileType sql vnoremap <silent><buffer> <leader>rs :<C-U>call g:RunSelection()<CR>
+autocmd FileType sql nnoremap <silent><buffer> <leader>re :call g:RunExplain()<CR>
+autocmd FileType sql vnoremap <silent><buffer> <leader>re :call g:RunExplainSelection()<CR>
