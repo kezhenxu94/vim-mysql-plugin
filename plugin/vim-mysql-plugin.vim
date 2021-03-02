@@ -47,7 +47,7 @@ fun! g:RunArray(sqlarray, timing)
 	endif
 
 	if a:timing
-		let l:thesql = ['SELECT NOW(3)+0 INTO @startTime;'] + a:sqlarray + ['SELECT CONCAT(ROUND(NOW(3) - @startTime, 3), "s") Took']
+		let l:thesql = ['SELECT NOW(3)+0 INTO @startTime;'] + a:sqlarray + ['; SELECT CONCAT(ROUND(NOW(3) - @startTime, 3), "s") Took']
 	else
 		let l:thesql = a:sqlarray
 	endif
@@ -72,11 +72,25 @@ func! g:DescriptCursorTable()
 	call RunArray(['SHOW FULL COLUMNS FROM `' . l:Table . '`;'], 0)
 endfun
 
-fun! g:RunInstruction()
+fun! s:GetInstruction()
 	let l:PrevSemicolon = search(';', 'bnW')
 	let l:NextSemicolon = search(';', 'nW')
-	let l:Lines = getline(l:PrevSemicolon, l:NextSemicolon)[1:]
+	return getline(l:PrevSemicolon, l:NextSemicolon)[1:]
+endfun
+
+fun! g:RunInstruction()
+    let l:Lines = s:GetInstruction()
 	call g:RunArray(l:Lines, 1)
+endfun
+
+fun! g:RunExplain()
+    let l:Lines = s:GetInstruction()
+	call g:RunArray(['explain '] + l:Lines, 1)
+endfun
+
+fun! g:RunExplainSelection()
+	let l:Selection = g:GetSelection()
+	call g:RunArray(['explain '] + l:Selection, 1)
 endfun
 
 fun! s:GetCommand()
@@ -97,3 +111,5 @@ autocmd FileType sql nnoremap <silent><buffer> <leader>ss :call g:SelectCursorTa
 autocmd FileType sql nnoremap <silent><buffer> <leader>ds :call g:DescriptCursorTable()<CR>
 autocmd FileType sql nnoremap <silent><buffer> <leader>rs :call g:RunSelection()<CR>
 autocmd FileType sql vnoremap <silent><buffer> <leader>rs :<C-U>call g:RunSelection()<CR>
+autocmd FileType sql nnoremap <silent><buffer> <leader>re :call g:RunExplain()<CR>
+autocmd FileType sql vnoremap <silent><buffer> <leader>re :call g:RunExplainSelection()<CR>
