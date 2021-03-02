@@ -120,14 +120,6 @@ After typing the shortcut the VIM window will be splitted into two, the bottom o
 
 If you find it difficult to use this plugin, please open issues or help to improve it by creating pull requests.
 
-## Contributors
-
-| :tada: | :tada: | :tada: |
-| :---: | :---: | :---: |
-| [![kezhenxu94](https://avatars3.githubusercontent.com/u/15965696?size=50)](https://github.com/kezhenxu94) | [![jfecher](https://avatars2.githubusercontent.com/u/13188781?size=50)](https://github.com/jfecher) | [![Artful Robot](https://avatars0.githubusercontent.com/u/870343?size=50)](https://github.com/artfulrobot) |
-
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
 ## Change log
 
 - Security improvement: all shell commands are escaped with shellescape(). This means MySQL command options must now be one-per-line.
