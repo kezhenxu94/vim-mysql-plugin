@@ -44,6 +44,70 @@ Plugin 'https://github.com/kezhenxu94/vim-mysql-plugin.git'
 
 Then run `:PlugInstall`.
 
+### Install For Dummies
+
+If you don't have vundle and nothing you've tried worked...if you cannot issue `:PlugInstall` when in vim...try these (unecessary) instructions:
+
+In your terminal...issue these commands, one by one (this assumes you have `git` installed and configured):
+
+```
+cd ~;
+git clone git@github.com:kezhenxu94/vim-mysql-plugin.git;
+ls -lah ~/vim-mysql-plugin/plugin/vim-mysql-plugin.vim;
+echo "let mapleader = '\'" >> ~/.vimrc;
+echo "source ~/vim-mysql-plugin/plugin/vim-mysql-plugin.vim" >> ~/.vimrc;
+```
+
+Two more things to do:
+1. Put your database credentials in `~/my.cnf`
+```
+[client]
+user=your_user_here
+[clientAnysuffix]
+database=mydb"
+```
+2. Use vim to issue mysql commands!
+
+- `vim anyfile` (so that you can type your sql)
+- at the top of the file you may put command line args (but one is mandatory)
+ - the `--defaults-group-suffix` has to be there (but suffix does not matter)
+  - to use `mysql_config_editor` created `my_login.cnf` add `--login-path=<configured db path>`
+
+```
+-- --defaults-group-suffix=Anysuffix
+-- -t
+--
+
+SELECT * FROM USER;
+```
+- Query `SELECT * FROM USER` with these keystrokes _(`<CR>` is carriage return/"enter")_:
+
+```
+/SELECT<CR>
+V
+\rs
+```
+
+Query results appear in a split pane. The following is a description of the commands including an explanation of the `\SELECT<CR>V\rs` sequence:
+
+- `/SELECT` then *<CR>* moves your cursor (via *search*) to the query
+- `V` *shift+v* selects the entire query (line)
+- `\rs` issues `<leader>`+rs
+ - earlier we set `mapleader` to backslash _(change it in .vimrc)_
+- Command reference:
+ - `<leader>rr` "Run Instruction"
+ - `<leader>ss` "Select Cursor Table"
+ - `<leader>ds` "Descript Cursor Table"
+ - `<leader>rs` "Run Selection"
+ - `<leader>re` "Run Explain"
+   - "Run Instruction" executes query and can be run from anywhere within the query (seemingly)
+       - _be sure your semi-colons are in place_
+    - "Explain" can be run from anywhere within the query (seemingly)
+       - _be sure your semi-colons are in place_
+    - "Selection" means select _query_ before issuing command
+    - "Cursor" means place your cursor on _the table_ to issue command
+
+Read on to see more detailed explanations.
 
 ## How does it work
 
@@ -121,6 +185,8 @@ After typing the shortcut the VIM window will be splitted into two, the bottom o
 If you find it difficult to use this plugin, please open issues or help to improve it by creating pull requests.
 
 ## Change log
+
+- Added a simplified install sequence with some descriptions that may be useful for those just getting started in vim.
 
 - Security improvement: all shell commands are escaped with shellescape(). This means MySQL command options must now be one-per-line.
 
