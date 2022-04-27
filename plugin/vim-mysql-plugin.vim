@@ -79,12 +79,12 @@ fun! s:GetInstruction()
 endfun
 
 fun! g:RunInstruction()
-    let l:Lines = s:GetInstruction()
+	let l:Lines = s:GetInstruction()
 	call g:RunArray(l:Lines, 1)
 endfun
 
 fun! g:RunExplain()
-    let l:Lines = s:GetInstruction()
+	let l:Lines = s:GetInstruction()
 	call g:RunArray(['explain '] + l:Lines, 1)
 endfun
 
