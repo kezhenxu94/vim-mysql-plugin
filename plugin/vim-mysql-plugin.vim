@@ -8,24 +8,30 @@ if exists("g:vim_mysql_plugin_loaded") || &cp
 endif
 
 let g:vim_mysql_plugin_loaded = 1
+let g:vim_mysql_plugin_sqleof = ';'
 
 fun! g:RunShellCommand(shell_command)
-	echohl String | echon '¦ $ ' . a:shell_command . '...' | echohl None
+	echohl String | echon '$ ' . a:shell_command[0:winwidth(0)-11] . '...' | echohl None
 
 	silent! exe "noautocmd botright pedit ¦"
 	noautocmd wincmd P
+	setl stl =Running...please\ wait
+	redraw
 	setlocal modifiable
 	setlocal nowrap
 	normal ggdG
 
 	set buftype=nofile
 	silent! exe "noautocmd .! " . a:shell_command
-	normal gg
+	normal ggG
+	let time = getline(".")
+	exe 'setl stl=Done\ in\ ' . time[6:]
+	normal kdG
 	setlocal nomodifiable
 	noautocmd wincmd p
 	redraw!
 
-	echohl Comment | echon 'Done! ' . a:shell_command | echohl None
+	echohl Comment | echon '$ '. a:shell_command[0:winwidth(0)-11] . '...' | echohl None
 endfun
 
 fun! g:GetSelection()
@@ -47,7 +53,7 @@ fun! g:RunArray(sqlarray, timing)
 	endif
 
 	if a:timing
-		let l:thesql = ['SELECT NOW(3)+0 INTO @startTime;'] + a:sqlarray + ['; SELECT CONCAT(ROUND(NOW(3) - @startTime, 3), "s") Took']
+		let l:thesql = ['SELECT NOW(3)+0 INTO @startTime;'] + a:sqlarray + ['; SELECT CONCAT(ROUND(NOW(3) - @startTime, 3), "s") Took\G']
 	else
 		let l:thesql = a:sqlarray
 	endif
@@ -64,27 +70,39 @@ endfun
 
 func! g:SelectCursorTable()
 	let l:Table = expand('<cword>')
-	call RunArray(['SELECT * FROM `' . l:Table . '` LIMIT 100;'], 0)
+	call RunArray(['SELECT * FROM `' . l:Table . '` LIMIT 100' . g:vim_mysql_plugin_sqleof], 0)
 endfun
 
 func! g:DescriptCursorTable()
 	let l:Table = expand('<cword>')
-	call RunArray(['SHOW FULL COLUMNS FROM `' . l:Table . '`;'], 0)
+	call RunArray(['SHOW FULL COLUMNS FROM `' . l:Table . '`' . g:vim_mysql_plugin_sqleof], 0)
+endfun
+
+fun! s:SetEosql(line)
+	let eosql = getline(a:line)
+	let m = matchstr(eosql, ';')
+	if (empty(m))
+		let g:vim_mysql_plugin_sqleof = '\G'
+	else
+		let g:vim_mysql_plugin_sqleof = ';'
+	endif
 endfun
 
 fun! s:GetInstruction()
-	let l:PrevSemicolon = search(';', 'bnW')
-	let l:NextSemicolon = search(';', 'nW')
+	let l:p = '\(\G\|;\)'
+	let l:PrevSemicolon = search(l:p, 'bnW')
+	let l:NextSemicolon = search(l:p, 'cnW')
+	call s:SetEosql(l:NextSemicolon)
 	return getline(l:PrevSemicolon, l:NextSemicolon)[1:]
 endfun
 
 fun! g:RunInstruction()
-    let l:Lines = s:GetInstruction()
+	let l:Lines = s:GetInstruction()
 	call g:RunArray(l:Lines, 1)
 endfun
 
 fun! g:RunExplain()
-    let l:Lines = s:GetInstruction()
+	let l:Lines = s:GetInstruction()
 	call g:RunArray(['explain '] + l:Lines, 1)
 endfun
 
