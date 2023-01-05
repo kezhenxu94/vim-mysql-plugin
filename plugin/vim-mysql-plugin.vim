@@ -23,10 +23,7 @@ fun! g:RunShellCommand(shell_command)
 
 	set buftype=nofile
 	silent! exe "noautocmd .! " . a:shell_command
-	normal ggG
-	let time = getline(".")
-	exe 'setl stl=Done\ in\ ' . time[6:]
-	normal kdG
+	normal gg
 	setlocal nomodifiable
 	noautocmd wincmd p
 	redraw!
