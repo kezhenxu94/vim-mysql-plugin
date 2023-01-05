@@ -23,6 +23,7 @@ fun! g:RunShellCommand(shell_command)
 
 	set buftype=nofile
 	silent! exe "noautocmd .! " . a:shell_command
+	exe 'setl stl=Done'
 	normal gg
 	setlocal nomodifiable
 	noautocmd wincmd p
