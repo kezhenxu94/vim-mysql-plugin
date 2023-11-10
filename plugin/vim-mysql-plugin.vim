@@ -114,7 +114,7 @@ fun! s:GetCommand()
 	let l:LineNum = 1
 	let l:Line = getline(l:LineNum)
 	while l:Line != '--'
-		let l:arg = shellescape(substitute(l:Line, '^--\s*\(.*\)$', '\1', 'g'))
+		let l:arg = shellescape(substitute(l:Line, '^--\s*\(.*\)$', ' \1', 'g'))
 		let l:Command .= l:arg . ' '
 		let l:LineNum = l:LineNum + 1
 		let l:Line = getline(l:LineNum)
